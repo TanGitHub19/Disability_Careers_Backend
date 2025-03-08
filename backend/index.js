@@ -44,7 +44,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/contact", contactRoutes);
 
 app.get("/", (req, res) => {
-  res.redirect("/api/");
+  res.send("API is running!");
 });
 
 const PORT = process.env.PORT
