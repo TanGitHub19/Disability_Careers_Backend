@@ -1,5 +1,5 @@
 export const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["https://disability-careers-backend-6n8kyi3nt-tangithub19s-projects.vercel.app"],
   methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
   credentials: true,
 };
