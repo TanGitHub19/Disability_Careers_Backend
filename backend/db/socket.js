@@ -1,14 +1,18 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
-import { corsOptions } from "../config/cors.config.js";
 
 const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: { corsOptions },
+  cors: {
+    origin: ["https://disability-careers-backend.vercel.app"],
+    methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
+    credentials: true,
+  },
 });
+
 
 export function getReceiverSocketId(userId) {
   return userSocketMap[userId];
