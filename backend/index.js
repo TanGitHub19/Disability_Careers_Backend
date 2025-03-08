@@ -43,6 +43,9 @@ app.use("/api/email", emailRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/contact", contactRoutes);
 
+app.get("/", (req, res) => {
+  res.redirect("/api/");
+});
 
 const PORT = process.env.PORT
 
