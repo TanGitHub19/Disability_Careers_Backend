@@ -3,7 +3,7 @@ import axios from "axios";
 import { create } from "zustand";
 import toast from "react-hot-toast";
 
-const BASE_URL = "http://localhost:8080/api/admin";
+const API_URL = import.meta.env.VITE_API_URL;
 
 axios.defaults.withCredentials = true;
 export const adminStore = create((set) => ({
@@ -19,7 +19,7 @@ export const adminStore = create((set) => ({
   getTotalUsers: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/users/total`);
+      const response = await axios.get(`${API_URL}/admin/users/total`);
       const totalUsers = response.data.totalUsers || 0;
       set({
         totalUsers: totalUsers,
@@ -41,7 +41,7 @@ export const adminStore = create((set) => ({
   getTotalEmployers: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/users/employers/total`);
+      const response = await axios.get(`${API_URL}/admin/users/employers/total`);
       const totalEmployers = response.data.totalEmployers || 0;
       set({
         totalEmployers: totalEmployers,
@@ -63,7 +63,7 @@ export const adminStore = create((set) => ({
   getTotalApplicants: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/users/applicants/total`);
+      const response = await axios.get(`${API_URL}/admin/users/applicants/total`);
       const totalApplicants = response.data.totalApplicants || 0;
       set({
         totalApplicants: totalApplicants,
@@ -85,7 +85,7 @@ export const adminStore = create((set) => ({
   getEmployerVerificationId: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/pending-employerID`);
+      const response = await axios.get(`${API_URL}/admin/pending-employerID`);
       const pendingEmployerID = response.data.pendingEmployerVerifications || 0;
       set({
         pendingEmployerID: pendingEmployerID,
@@ -104,7 +104,7 @@ export const adminStore = create((set) => ({
     set({ isAdminLoading: true, error: null });
     try {
       const response = await axios.get(
-        `${BASE_URL}/disability-id/all-employer`
+        `${API_URL}/admin/disability-id/all-employer`
       );
       set({ isAdminLoading: false, totaluploademployer: response.data });
     } catch (error) {
@@ -123,7 +123,7 @@ export const adminStore = create((set) => ({
   updateEmployerVerificationStatus: async (userId, isVerified) => {
     try {
       const response = await axios.put(
-        `${BASE_URL}/employer-verify/${userId}`,
+        `${API_URL}/admin/employer-verify/${userId}`,
         { isVerified }
       );
       set((state) => ({
@@ -144,7 +144,7 @@ export const adminStore = create((set) => ({
   getPWDVerificationId: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/pending-pwdID`);
+      const response = await axios.get(`${API_URL}/admin/pending-pwdID`);
       console.log("API Response:", response.data);
       const pendingPwdID = response.data.pendingDisabilityVerifications || 0;
       console.log("Pending PWD ID:", pendingPwdID);
@@ -168,7 +168,7 @@ export const adminStore = create((set) => ({
   getDisabilityCounts: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/disability-counts`);
+      const response = await axios.get(`${API_URL}/admin/disability-counts`);
       set({
         totalDisabilityCounts: response.data,
         isAdminLoading: false,
@@ -190,7 +190,7 @@ export const adminStore = create((set) => ({
   getDisabilityVerificationId: async () => {
     set({ isAdminLoading: true, error: null });
     try {
-      const response = await axios.get(`${BASE_URL}/disability-id/all`);
+      const response = await axios.get(`${API_URL}/admin/disability-id/all`);
       set({ isAdminLoading: false, totaluploaddisability: response.data });
     } catch (error) {
       console.error("Error fetching disability verification ID:", error);
@@ -208,7 +208,7 @@ export const adminStore = create((set) => ({
   //update approved and reject
   updateDisabilityVerificationStatus: async (userId, isVerified) => {
     try {
-      const response = await axios.put(`${BASE_URL}/disability-verify/${userId}`, { isVerified });
+      const response = await axios.put(`${API_URL}/admin/disability-verify/${userId}`, { isVerified });
       set((state) => ({
         totaluploaddisability: state.totaluploaddisability.map(user =>
           user.userId === userId ? { ...user, isIdVerified: isVerified } : user
@@ -235,28 +235,28 @@ const headers = { Authorization: `Bearer ${token}` };
  * Expected response shape: { employers: [...], applicants: [...] }
  */
 export const fetchUsersApi = () => {
-  return axios.get(`${BASE_URL}/get-users`, { headers });
+  return axios.get(`${API_URL}/admin/get-users`, { headers });
 };
 
 /**
  * Delete a user by ID.
  */
 export const deleteUserApi = (userId) => {
-  return axios.delete(`${BASE_URL}/user/${userId}`, { headers });
+  return axios.delete(`${API_URL}/admin/user/${userId}`, { headers });
 };
 
 /**
  * Ban a user by ID.
  */
 export const banUserApi = (userId) => {
-  return axios.patch(`${BASE_URL}/user/${userId}/ban`, {}, { headers });
+  return axios.patch(`${API_URL}/admin/user/${userId}/ban`, {}, { headers });
 };
 
 /**
  * Unban a user by ID.
  */
 export const unbanUserApi = (userId) => {
-  return axios.patch(`${BASE_URL}/user/${userId}/unban`, {}, { headers });
+  return axios.patch(`${API_URL}/admin/user/${userId}/unban`, {}, { headers });
 };
 
 /**
@@ -264,7 +264,7 @@ export const unbanUserApi = (userId) => {
  */
 export const updateEmployer = async (userId, formData) => {
   try {
-    const response = await axios.put(`${BASE_URL}/users/${userId}`, formData, {
+    const response = await axios.put(`${API_URL}/admin/users/${userId}`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -280,7 +280,7 @@ export const updateEmployer = async (userId, formData) => {
 
 export const updateApplicant = async (userId, formData) => {
   try {
-    const response = await axios.put(`${BASE_URL}/users/${userId}`, formData, {
+    const response = await axios.put(`${API_URL}/admin/users/${userId}`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

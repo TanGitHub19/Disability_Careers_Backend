@@ -3,9 +3,9 @@ import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 import { create } from "zustand";
 
-const API_URL = "http://localhost:8080/api";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
-const BASE_URL = "http://localhost:8080";
 
 axios.defaults.withCredentials = true;
 export const authStore = create((set, get) => ({

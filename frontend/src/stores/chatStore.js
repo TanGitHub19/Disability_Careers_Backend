@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { create } from "zustand";
 import { authStore } from "./authStore";
 
-const API_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
 
 export const chatStore = create((set, get) => ({
