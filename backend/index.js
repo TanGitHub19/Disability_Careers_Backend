@@ -53,6 +53,7 @@ app.get("/test-cookie", (req, res) => {
   res.send(req.cookies);
 });
 
+console.log(process.env.JWT_SECRET); // Just for testing — remove later
 
 const PORT = process.env.PORT
 
