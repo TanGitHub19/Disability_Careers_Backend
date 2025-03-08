@@ -47,6 +47,13 @@ app.get("/", (req, res) => {
   res.send("API is running!");
 });
 
+
+app.get("/test-cookie", (req, res) => {
+  console.log('Cookies:', req.cookies);
+  res.send(req.cookies);
+});
+
+
 const PORT = process.env.PORT
 
 server.listen(PORT, () => {
